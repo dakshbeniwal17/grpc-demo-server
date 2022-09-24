@@ -1,7 +1,7 @@
 package usecase
 
 import (
-	helloWorldPB "go-grpc/proto"
+	helloWorldPB "grpc-demo-server/proto"
 )
 
 type Server struct {

@@ -2,7 +2,7 @@ package usecase
 
 import (
 	"context"
-	helloWorldPB "go-grpc/proto"
+	helloWorldPB "grpc-demo-server/proto"
 )
 
 // GetMessage -

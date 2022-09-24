@@ -1,0 +1,23 @@
+version: '3.9'
+services:
+  postgres:
+    image: postgres:14.5
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: grpc-demo-server
+    ports:
+      - "5431:5432"
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "9000:9000"
+    depends_on:
+      - postgres
+    command: sh -c "/wait && /server"
+    environment:
+      WAIT_HOSTS: postgres:5432
+      WAIT_BEFORE: 10
+      DB_HOST: "postgres"

@@ -1,0 +1,12 @@
+[env]
+port = ":9000"
+
+[postgres]
+host     = "localhost"
+port     = 5432
+user     = "root"
+password = "password"
+dbName   = "grpc-demo-server"
+
+[db]
+migrationUrl = "file://./db/migrations"
