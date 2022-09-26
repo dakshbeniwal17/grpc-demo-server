@@ -10,3 +10,9 @@ no-tests = true
   pass   = "password"
   sslmode = "disable"
   blacklist = ["schema_migrations"]
+
+[aliases.tables.host_gpus]
+  up_plural     = "HostGpus"
+  up_singular   = "HostGpu"
+  down_plural   = "hostGpus"
+  down_singular = "hostGpu"

@@ -4,7 +4,35 @@
 package models
 
 var TableNames = struct {
-	Users string
+	Disks            string
+	GpuModels        string
+	GpuServiceMounts string
+	GpuServicePorts  string
+	GpuServices      string
+	HostGpus         string
+	HostServices     string
+	Hosts            string
+	PendingRequests  string
+	Requests         string
+	Roles            string
+	SensorModels     string
+	SensorReadings   string
+	Sessions         string
+	Users            string
 }{
-	Users: "users",
+	Disks:            "disks",
+	GpuModels:        "gpu_models",
+	GpuServiceMounts: "gpu_service_mounts",
+	GpuServicePorts:  "gpu_service_ports",
+	GpuServices:      "gpu_services",
+	HostGpus:         "host_gpus",
+	HostServices:     "host_services",
+	Hosts:            "hosts",
+	PendingRequests:  "pending_requests",
+	Requests:         "requests",
+	Roles:            "roles",
+	SensorModels:     "sensor_models",
+	SensorReadings:   "sensor_readings",
+	Sessions:         "sessions",
+	Users:            "users",
 }

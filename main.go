@@ -6,9 +6,9 @@ import (
 	"net"
 	"os"
 
+	controllers "grpc-demo-server/controllers"
 	"grpc-demo-server/db"
-	helloWorldPB "grpc-demo-server/proto"
-	usecase "grpc-demo-server/usecase"
+	pb "grpc-demo-server/pb"
 	"grpc-demo-server/utils/helpers"
 
 	"google.golang.org/grpc"
@@ -40,7 +40,7 @@ func main() {
 	grpcServer := grpc.NewServer()
 
 	reflection.Register(grpcServer)
-	helloWorldPB.RegisterHelloWorldServer(grpcServer, &usecase.Server{})
+	pb.RegisterGrpcDemoServer(grpcServer, &controllers.Server{DB: database})
 
 	log.Printf("GRPC server listening on %v", lis.Addr())
 

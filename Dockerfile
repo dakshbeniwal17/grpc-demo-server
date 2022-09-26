@@ -11,6 +11,5 @@ EXPOSE 9000
 
 RUN chmod +x /server
 RUN chmod +x /wait
-# RUN chmod +x ./wait-for.sh
 
 CMD /wait && /server

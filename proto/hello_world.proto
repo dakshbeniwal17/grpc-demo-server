@@ -1,12 +1,8 @@
 syntax = "proto3";
 
-option go_package = "go-grpc/server/proto";
+package pb;
 
-package hello_world;
-
-service HelloWorld {
-    rpc GetMessage(GetMessageRequest) returns (GetMessageResponse) {}
-}
+option go_package = "grpc-demo-server/pb";
 
 message GetMessageRequest {  }
 message GetMessageResponse {

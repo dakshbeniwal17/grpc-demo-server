@@ -1,11 +1,10 @@
-package usecase
+package controllers
 
 import (
 	"context"
-	helloWorldPB "grpc-demo-server/proto"
+	helloWorldPB "grpc-demo-server/pb"
 )
 
-// GetMessage -
 func (s *Server) GetMessage(ctx context.Context, in *helloWorldPB.GetMessageRequest) (*helloWorldPB.GetMessageResponse, error) {
 	return &helloWorldPB.GetMessageResponse{
 		Message: "Hello World!",
