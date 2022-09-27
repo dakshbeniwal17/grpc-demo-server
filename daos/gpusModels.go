@@ -17,7 +17,6 @@ func CreateGpu(ctx context.Context, exec boil.ContextExecutor, bean *beans.GpuMo
 		Vram:             null.Float64From(bean.VRam),
 		OctaneBenchScore: null.IntFrom(bean.OctaneBenchScore),
 		GpuNo:            null.IntFrom(bean.GpuNo),
-		SlotNo:           null.IntFrom(bean.SlotNo),
 		Available:        null.IntFrom(bean.Available),
 		VramFree:         null.Float64From(bean.VramFree),
 	}
@@ -66,9 +65,6 @@ func UpdateGpu(ctx context.Context, exec boil.ContextExecutor, gpu *models.GpuMo
 	}
 	if bean.GpuNo.Valid {
 		gpu.GpuNo = bean.GpuNo
-	}
-	if bean.SlotNo.Valid {
-		gpu.SlotNo = bean.SlotNo
 	}
 	if bean.VramFree.Valid {
 		gpu.VramFree = bean.VramFree

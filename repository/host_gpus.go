@@ -26,7 +26,8 @@ import (
 type HostGpu struct {
 	ID     string      `boil:"id" json:"id" toml:"id" yaml:"id"`
 	HostID null.String `boil:"host_id" json:"host_id,omitempty" toml:"host_id" yaml:"host_id,omitempty"`
-	Gpu    null.String `boil:"gpu" json:"gpu,omitempty" toml:"gpu" yaml:"gpu,omitempty"`
+	GpuID  null.String `boil:"gpu_id" json:"gpu_id,omitempty" toml:"gpu_id" yaml:"gpu_id,omitempty"`
+	SlotNo null.Int    `boil:"slot_no" json:"slot_no,omitempty" toml:"slot_no" yaml:"slot_no,omitempty"`
 
 	R *hostGpuR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L hostGpuL  `boil:"-" json:"-" toml:"-" yaml:"-"`
@@ -35,21 +36,25 @@ type HostGpu struct {
 var HostGpuColumns = struct {
 	ID     string
 	HostID string
-	Gpu    string
+	GpuID  string
+	SlotNo string
 }{
 	ID:     "id",
 	HostID: "host_id",
-	Gpu:    "gpu",
+	GpuID:  "gpu_id",
+	SlotNo: "slot_no",
 }
 
 var HostGpuTableColumns = struct {
 	ID     string
 	HostID string
-	Gpu    string
+	GpuID  string
+	SlotNo string
 }{
 	ID:     "host_gpus.id",
 	HostID: "host_gpus.host_id",
-	Gpu:    "host_gpus.gpu",
+	GpuID:  "host_gpus.gpu_id",
+	SlotNo: "host_gpus.slot_no",
 }
 
 // Generated where
@@ -57,26 +62,28 @@ var HostGpuTableColumns = struct {
 var HostGpuWhere = struct {
 	ID     whereHelperstring
 	HostID whereHelpernull_String
-	Gpu    whereHelpernull_String
+	GpuID  whereHelpernull_String
+	SlotNo whereHelpernull_Int
 }{
 	ID:     whereHelperstring{field: "\"host_gpus\".\"id\""},
 	HostID: whereHelpernull_String{field: "\"host_gpus\".\"host_id\""},
-	Gpu:    whereHelpernull_String{field: "\"host_gpus\".\"gpu\""},
+	GpuID:  whereHelpernull_String{field: "\"host_gpus\".\"gpu_id\""},
+	SlotNo: whereHelpernull_Int{field: "\"host_gpus\".\"slot_no\""},
 }
 
 // HostGpuRels is where relationship names are stored.
 var HostGpuRels = struct {
-	Host        string
-	GpuGpuModel string
+	Host string
+	Gpu  string
 }{
-	Host:        "Host",
-	GpuGpuModel: "GpuGpuModel",
+	Host: "Host",
+	Gpu:  "Gpu",
 }
 
 // hostGpuR is where relationships are stored.
 type hostGpuR struct {
-	Host        *Host     `boil:"Host" json:"Host" toml:"Host" yaml:"Host"`
-	GpuGpuModel *GpuModel `boil:"GpuGpuModel" json:"GpuGpuModel" toml:"GpuGpuModel" yaml:"GpuGpuModel"`
+	Host *Host     `boil:"Host" json:"Host" toml:"Host" yaml:"Host"`
+	Gpu  *GpuModel `boil:"Gpu" json:"Gpu" toml:"Gpu" yaml:"Gpu"`
 }
 
 // NewStruct creates a new relationship struct
@@ -88,9 +95,9 @@ func (*hostGpuR) NewStruct() *hostGpuR {
 type hostGpuL struct{}
 
 var (
-	hostGpuAllColumns            = []string{"id", "host_id", "gpu"}
+	hostGpuAllColumns            = []string{"id", "host_id", "gpu_id", "slot_no"}
 	hostGpuColumnsWithoutDefault = []string{}
-	hostGpuColumnsWithDefault    = []string{"id", "host_id", "gpu"}
+	hostGpuColumnsWithDefault    = []string{"id", "host_id", "gpu_id", "slot_no"}
 	hostGpuPrimaryKeyColumns     = []string{"id"}
 	hostGpuGeneratedColumns      = []string{}
 )
@@ -387,10 +394,10 @@ func (o *HostGpu) Host(mods ...qm.QueryMod) hostQuery {
 	return query
 }
 
-// GpuGpuModel pointed to by the foreign key.
-func (o *HostGpu) GpuGpuModel(mods ...qm.QueryMod) gpuModelQuery {
+// Gpu pointed to by the foreign key.
+func (o *HostGpu) Gpu(mods ...qm.QueryMod) gpuModelQuery {
 	queryMods := []qm.QueryMod{
-		qm.Where("\"id\" = ?", o.Gpu),
+		qm.Where("\"id\" = ?", o.GpuID),
 	}
 
 	queryMods = append(queryMods, mods...)
@@ -509,9 +516,9 @@ func (hostGpuL) LoadHost(ctx context.Context, e boil.ContextExecutor, singular b
 	return nil
 }
 
-// LoadGpuGpuModel allows an eager lookup of values, cached into the
+// LoadGpu allows an eager lookup of values, cached into the
 // loaded structs of the objects. This is for an N-1 relationship.
-func (hostGpuL) LoadGpuGpuModel(ctx context.Context, e boil.ContextExecutor, singular bool, maybeHostGpu interface{}, mods queries.Applicator) error {
+func (hostGpuL) LoadGpu(ctx context.Context, e boil.ContextExecutor, singular bool, maybeHostGpu interface{}, mods queries.Applicator) error {
 	var slice []*HostGpu
 	var object *HostGpu
 
@@ -526,8 +533,8 @@ func (hostGpuL) LoadGpuGpuModel(ctx context.Context, e boil.ContextExecutor, sin
 		if object.R == nil {
 			object.R = &hostGpuR{}
 		}
-		if !queries.IsNil(object.Gpu) {
-			args = append(args, object.Gpu)
+		if !queries.IsNil(object.GpuID) {
+			args = append(args, object.GpuID)
 		}
 
 	} else {
@@ -538,13 +545,13 @@ func (hostGpuL) LoadGpuGpuModel(ctx context.Context, e boil.ContextExecutor, sin
 			}
 
 			for _, a := range args {
-				if queries.Equal(a, obj.Gpu) {
+				if queries.Equal(a, obj.GpuID) {
 					continue Outer
 				}
 			}
 
-			if !queries.IsNil(obj.Gpu) {
-				args = append(args, obj.Gpu)
+			if !queries.IsNil(obj.GpuID) {
+				args = append(args, obj.GpuID)
 			}
 
 		}
@@ -593,7 +600,7 @@ func (hostGpuL) LoadGpuGpuModel(ctx context.Context, e boil.ContextExecutor, sin
 
 	if singular {
 		foreign := resultSlice[0]
-		object.R.GpuGpuModel = foreign
+		object.R.Gpu = foreign
 		if foreign.R == nil {
 			foreign.R = &gpuModelR{}
 		}
@@ -603,8 +610,8 @@ func (hostGpuL) LoadGpuGpuModel(ctx context.Context, e boil.ContextExecutor, sin
 
 	for _, local := range slice {
 		for _, foreign := range resultSlice {
-			if queries.Equal(local.Gpu, foreign.ID) {
-				local.R.GpuGpuModel = foreign
+			if queries.Equal(local.GpuID, foreign.ID) {
+				local.R.Gpu = foreign
 				if foreign.R == nil {
 					foreign.R = &gpuModelR{}
 				}
@@ -697,10 +704,10 @@ func (o *HostGpu) RemoveHost(ctx context.Context, exec boil.ContextExecutor, rel
 	return nil
 }
 
-// SetGpuGpuModel of the hostGpu to the related item.
-// Sets o.R.GpuGpuModel to related.
+// SetGpu of the hostGpu to the related item.
+// Sets o.R.Gpu to related.
 // Adds o to related.R.GpuHostGpus.
-func (o *HostGpu) SetGpuGpuModel(ctx context.Context, exec boil.ContextExecutor, insert bool, related *GpuModel) error {
+func (o *HostGpu) SetGpu(ctx context.Context, exec boil.ContextExecutor, insert bool, related *GpuModel) error {
 	var err error
 	if insert {
 		if err = related.Insert(ctx, exec, boil.Infer()); err != nil {
@@ -710,7 +717,7 @@ func (o *HostGpu) SetGpuGpuModel(ctx context.Context, exec boil.ContextExecutor,
 
 	updateQuery := fmt.Sprintf(
 		"UPDATE \"host_gpus\" SET %s WHERE %s",
-		strmangle.SetParamNames("\"", "\"", 1, []string{"gpu"}),
+		strmangle.SetParamNames("\"", "\"", 1, []string{"gpu_id"}),
 		strmangle.WhereClause("\"", "\"", 2, hostGpuPrimaryKeyColumns),
 	)
 	values := []interface{}{related.ID, o.ID}
@@ -724,13 +731,13 @@ func (o *HostGpu) SetGpuGpuModel(ctx context.Context, exec boil.ContextExecutor,
 		return errors.Wrap(err, "failed to update local table")
 	}
 
-	queries.Assign(&o.Gpu, related.ID)
+	queries.Assign(&o.GpuID, related.ID)
 	if o.R == nil {
 		o.R = &hostGpuR{
-			GpuGpuModel: related,
+			Gpu: related,
 		}
 	} else {
-		o.R.GpuGpuModel = related
+		o.R.Gpu = related
 	}
 
 	if related.R == nil {
@@ -744,26 +751,26 @@ func (o *HostGpu) SetGpuGpuModel(ctx context.Context, exec boil.ContextExecutor,
 	return nil
 }
 
-// RemoveGpuGpuModel relationship.
-// Sets o.R.GpuGpuModel to nil.
+// RemoveGpu relationship.
+// Sets o.R.Gpu to nil.
 // Removes o from all passed in related items' relationships struct (Optional).
-func (o *HostGpu) RemoveGpuGpuModel(ctx context.Context, exec boil.ContextExecutor, related *GpuModel) error {
+func (o *HostGpu) RemoveGpu(ctx context.Context, exec boil.ContextExecutor, related *GpuModel) error {
 	var err error
 
-	queries.SetScanner(&o.Gpu, nil)
-	if _, err = o.Update(ctx, exec, boil.Whitelist("gpu")); err != nil {
+	queries.SetScanner(&o.GpuID, nil)
+	if _, err = o.Update(ctx, exec, boil.Whitelist("gpu_id")); err != nil {
 		return errors.Wrap(err, "failed to update local table")
 	}
 
 	if o.R != nil {
-		o.R.GpuGpuModel = nil
+		o.R.Gpu = nil
 	}
 	if related == nil || related.R == nil {
 		return nil
 	}
 
 	for i, ri := range related.R.GpuHostGpus {
-		if queries.Equal(o.Gpu, ri.Gpu) {
+		if queries.Equal(o.GpuID, ri.GpuID) {
 			continue
 		}
 

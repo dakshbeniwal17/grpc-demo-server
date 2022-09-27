@@ -28,7 +28,6 @@ func ConvertGpu(gpu *models.GpuModel) *pb.GpuModels {
 		Vram:             float32(gpu.Vram.Float64),
 		OctaneBenchScore: int64(gpu.OctaneBenchScore.Int),
 		GpuNo:            int64(gpu.GpuNo.Int),
-		SlotNo:           int64(gpu.SlotNo.Int),
 		Available:        int64(gpu.Available.Int),
 		VramFree:         float32(gpu.VramFree.Float64),
 		Updated:          timestamppb.New(gpu.Updated.Time),

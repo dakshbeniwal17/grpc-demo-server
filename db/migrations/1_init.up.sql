@@ -5,7 +5,6 @@ CREATE TABLE "gpu_models" (
     "vram" float DEFAULT 6,
     "octane_bench_score" int DEFAULT 0,
     "gpu_no" int DEFAULT 0,
-    "slot_no" int DEFAULT 0,
     "available" int DEFAULT 1,
     "vram_free" float DEFAULT NULL,
     "updated" timestamp DEFAULT current_timestamp,
@@ -71,10 +70,11 @@ CREATE INDEX "hosts_url_IDX" on "hosts" ("job_url");
 CREATE TABLE "host_gpus" (
     "id" char(36) DEFAULT uuid_generate_v4(),
     "host_id" char(36) DEFAULT NULL,
-    "gpu" varchar(36) DEFAULT NULL,
+    "gpu_id" varchar(36) DEFAULT NULL,
+    "slot_no" int DEFAULT 0,
     PRIMARY KEY ("id"),
     CONSTRAINT "host_gpus_ibfk_1" FOREIGN KEY ("host_id") REFERENCES "hosts" ("id"),
-    CONSTRAINT "host_gpus_ibfk_2" FOREIGN KEY ("gpu") REFERENCES "gpu_models" ("id")
+    CONSTRAINT "host_gpus_ibfk_2" FOREIGN KEY ("gpu_id") REFERENCES "gpu_models" ("id")
 );
 
 CREATE TABLE "host_services" (

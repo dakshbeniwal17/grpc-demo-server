@@ -18,7 +18,6 @@ func (s *Server) CreateGpuModel(ctx context.Context, req *pb.CreateGpuModelReque
 		VRam:             float64(req.GetVram()),
 		OctaneBenchScore: int(req.GetOctaneBenchScore()),
 		GpuNo:            int(req.GetGpuNo()),
-		SlotNo:           int(req.GetSlotNo()),
 		Available:        int(req.GetAvailable()),
 		VramFree:         float64(req.GetVramFree()),
 	}
@@ -48,10 +47,6 @@ func (s *Server) UpdateGpuModel(ctx context.Context, req *pb.UpdateGpuModelReque
 		GpuNo: null.Int{
 			Int:   int(req.GetGpuNo()),
 			Valid: req.GpuNo != nil,
-		},
-		SlotNo: null.Int{
-			Int:   int(req.GetSlotNo()),
-			Valid: req.SlotNo != nil,
 		},
 		Available: null.Int{
 			Int:   int(req.GetAvailable()),

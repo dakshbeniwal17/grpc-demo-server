@@ -10,20 +10,18 @@ message GpuModels {
     float vram = 1;
     int64 octane_bench_score = 2;
     int64 gpu_no= 3;
-    int64 slot_no= 4;
-    int64 available= 5;
-    float vram_free = 6;
-    google.protobuf.Timestamp updated = 7;
-    string id = 8;
+    int64 available= 4;
+    float vram_free = 5;
+    google.protobuf.Timestamp updated = 6;
+    string id = 7;
 }
 
 message CreateGpuModelRequest {
     float vram = 1;
     int64 octane_bench_score = 2;
     int64 gpu_no= 3;
-    int64 slot_no= 4;
-    int64 available= 5;
-    float vram_free = 6;
+    int64 available= 4;
+    float vram_free = 5;
 }
 
 message CreateGpuModelResponse {
@@ -34,10 +32,9 @@ message UpdateGpuModelRequest {
     optional float vram = 1;
     optional int64 octane_bench_score = 2;
     optional int64 gpu_no= 3;
-    optional int64 slot_no= 4;
-    optional int64 available= 5;
-    optional float vram_free = 6;
-    string id = 8;
+    optional int64 available= 4;
+    optional float vram_free = 5;
+    string id = 6;
 }
 
 message UpdateGpuModelResponse {
