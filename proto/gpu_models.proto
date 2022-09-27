@@ -2,17 +2,28 @@ syntax = "proto3";
 
 package pb;
 
+import "google/protobuf/timestamp.proto";
+
 option go_package = "grpc-demo-server/pb";
 
 message GpuModels {
-    string id = 1;
-    float vram = 2;
-    int64 octane_bench_score = 3;
+    float vram = 1;
+    int64 octane_bench_score = 2;
+    int64 gpu_no= 3;
+    int64 slot_no= 4;
+    int64 available= 5;
+    float vram_free = 6;
+    google.protobuf.Timestamp updated = 7;
+    string id = 8;
 }
 
 message CreateGpuModelRequest {
     float vram = 1;
     int64 octane_bench_score = 2;
+    int64 gpu_no= 3;
+    int64 slot_no= 4;
+    int64 available= 5;
+    float vram_free = 6;
 }
 
 message CreateGpuModelResponse {
@@ -20,9 +31,13 @@ message CreateGpuModelResponse {
 }
 
 message UpdateGpuModelRequest {
-    string id = 1;
-    optional float vram = 2;
-    optional int64 octane_bench_score = 3;
+    optional float vram = 1;
+    optional int64 octane_bench_score = 2;
+    optional int64 gpu_no= 3;
+    optional int64 slot_no= 4;
+    optional int64 available= 5;
+    optional float vram_free = 6;
+    string id = 8;
 }
 
 message UpdateGpuModelResponse {

@@ -4,8 +4,19 @@ CREATE TABLE "gpu_models" (
     "id" varchar(36) NOT NULL DEFAULT uuid_generate_v4(),
     "vram" float DEFAULT 6,
     "octane_bench_score" int DEFAULT 0,
+    "gpu_no" int DEFAULT 0,
+    "slot_no" int DEFAULT 0,
+    "available" int DEFAULT 1,
+    "vram_free" float DEFAULT NULL,
+    "updated" timestamp DEFAULT current_timestamp,
     PRIMARY KEY ("id")
 );
+
+CREATE INDEX "gpu_models_vram_IDX" on "gpu_models" ("vram");
+
+CREATE INDEX "gpu_models_vram_free_IDX" on "gpu_models" ("vram_free");
+
+CREATE INDEX "gpu_models_updated_IDX" on "gpu_models" ("updated");
 
 CREATE TABLE "gpu_services" (
     "id" varchar(36) NOT NULL DEFAULT uuid_generate_v4(),
@@ -60,29 +71,11 @@ CREATE INDEX "hosts_url_IDX" on "hosts" ("job_url");
 CREATE TABLE "host_gpus" (
     "id" char(36) DEFAULT uuid_generate_v4(),
     "host_id" char(36) DEFAULT NULL,
-    "updated" timestamp DEFAULT current_timestamp,
-    "gpu" varchar(36) DEFAULT uuid_generate_v4(),
-    "gpu_no" int DEFAULT 0,
-    "slot_no" int DEFAULT 0,
-    "available" int DEFAULT 1,
-    "vram" float DEFAULT NULL,
-    "vram_free" float DEFAULT NULL,
+    "gpu" varchar(36) DEFAULT NULL,
     PRIMARY KEY ("id"),
     CONSTRAINT "host_gpus_ibfk_1" FOREIGN KEY ("host_id") REFERENCES "hosts" ("id"),
     CONSTRAINT "host_gpus_ibfk_2" FOREIGN KEY ("gpu") REFERENCES "gpu_models" ("id")
 );
-
-CREATE INDEX "host_gpus_vram_IDX" on "host_gpus" USING BTREE ("vram");
-
-CREATE INDEX "host_gpus_vram_free_IDX" on "host_gpus" USING BTREE ("vram_free");
-
-CREATE INDEX "host_gpus_gpu_IDX" on "host_gpus" USING HASH ("gpu");
-
-CREATE INDEX "host_gpus_id_IDX" on "host_gpus" USING HASH ("id");
-
-CREATE INDEX "host_gpus_host_id_IDX" on "host_gpus" USING HASH ("host_id");
-
-CREATE INDEX "host_gpus_updated_IDX" on "host_gpus" USING BTREE ("updated");
 
 CREATE TABLE "host_services" (
     "host_id" varchar(36) NOT NULL,

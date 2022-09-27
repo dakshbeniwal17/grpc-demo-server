@@ -27,6 +27,11 @@ type GpuModel struct {
 	ID               string       `boil:"id" json:"id" toml:"id" yaml:"id"`
 	Vram             null.Float64 `boil:"vram" json:"vram,omitempty" toml:"vram" yaml:"vram,omitempty"`
 	OctaneBenchScore null.Int     `boil:"octane_bench_score" json:"octane_bench_score,omitempty" toml:"octane_bench_score" yaml:"octane_bench_score,omitempty"`
+	GpuNo            null.Int     `boil:"gpu_no" json:"gpu_no,omitempty" toml:"gpu_no" yaml:"gpu_no,omitempty"`
+	SlotNo           null.Int     `boil:"slot_no" json:"slot_no,omitempty" toml:"slot_no" yaml:"slot_no,omitempty"`
+	Available        null.Int     `boil:"available" json:"available,omitempty" toml:"available" yaml:"available,omitempty"`
+	VramFree         null.Float64 `boil:"vram_free" json:"vram_free,omitempty" toml:"vram_free" yaml:"vram_free,omitempty"`
+	Updated          null.Time    `boil:"updated" json:"updated,omitempty" toml:"updated" yaml:"updated,omitempty"`
 
 	R *gpuModelR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L gpuModelL  `boil:"-" json:"-" toml:"-" yaml:"-"`
@@ -36,32 +41,86 @@ var GpuModelColumns = struct {
 	ID               string
 	Vram             string
 	OctaneBenchScore string
+	GpuNo            string
+	SlotNo           string
+	Available        string
+	VramFree         string
+	Updated          string
 }{
 	ID:               "id",
 	Vram:             "vram",
 	OctaneBenchScore: "octane_bench_score",
+	GpuNo:            "gpu_no",
+	SlotNo:           "slot_no",
+	Available:        "available",
+	VramFree:         "vram_free",
+	Updated:          "updated",
 }
 
 var GpuModelTableColumns = struct {
 	ID               string
 	Vram             string
 	OctaneBenchScore string
+	GpuNo            string
+	SlotNo           string
+	Available        string
+	VramFree         string
+	Updated          string
 }{
 	ID:               "gpu_models.id",
 	Vram:             "gpu_models.vram",
 	OctaneBenchScore: "gpu_models.octane_bench_score",
+	GpuNo:            "gpu_models.gpu_no",
+	SlotNo:           "gpu_models.slot_no",
+	Available:        "gpu_models.available",
+	VramFree:         "gpu_models.vram_free",
+	Updated:          "gpu_models.updated",
 }
 
 // Generated where
+
+type whereHelpernull_Time struct{ field string }
+
+func (w whereHelpernull_Time) EQ(x null.Time) qm.QueryMod {
+	return qmhelper.WhereNullEQ(w.field, false, x)
+}
+func (w whereHelpernull_Time) NEQ(x null.Time) qm.QueryMod {
+	return qmhelper.WhereNullEQ(w.field, true, x)
+}
+func (w whereHelpernull_Time) LT(x null.Time) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.LT, x)
+}
+func (w whereHelpernull_Time) LTE(x null.Time) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.LTE, x)
+}
+func (w whereHelpernull_Time) GT(x null.Time) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.GT, x)
+}
+func (w whereHelpernull_Time) GTE(x null.Time) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.GTE, x)
+}
+
+func (w whereHelpernull_Time) IsNull() qm.QueryMod    { return qmhelper.WhereIsNull(w.field) }
+func (w whereHelpernull_Time) IsNotNull() qm.QueryMod { return qmhelper.WhereIsNotNull(w.field) }
 
 var GpuModelWhere = struct {
 	ID               whereHelperstring
 	Vram             whereHelpernull_Float64
 	OctaneBenchScore whereHelpernull_Int
+	GpuNo            whereHelpernull_Int
+	SlotNo           whereHelpernull_Int
+	Available        whereHelpernull_Int
+	VramFree         whereHelpernull_Float64
+	Updated          whereHelpernull_Time
 }{
 	ID:               whereHelperstring{field: "\"gpu_models\".\"id\""},
 	Vram:             whereHelpernull_Float64{field: "\"gpu_models\".\"vram\""},
 	OctaneBenchScore: whereHelpernull_Int{field: "\"gpu_models\".\"octane_bench_score\""},
+	GpuNo:            whereHelpernull_Int{field: "\"gpu_models\".\"gpu_no\""},
+	SlotNo:           whereHelpernull_Int{field: "\"gpu_models\".\"slot_no\""},
+	Available:        whereHelpernull_Int{field: "\"gpu_models\".\"available\""},
+	VramFree:         whereHelpernull_Float64{field: "\"gpu_models\".\"vram_free\""},
+	Updated:          whereHelpernull_Time{field: "\"gpu_models\".\"updated\""},
 }
 
 // GpuModelRels is where relationship names are stored.
@@ -85,9 +144,9 @@ func (*gpuModelR) NewStruct() *gpuModelR {
 type gpuModelL struct{}
 
 var (
-	gpuModelAllColumns            = []string{"id", "vram", "octane_bench_score"}
+	gpuModelAllColumns            = []string{"id", "vram", "octane_bench_score", "gpu_no", "slot_no", "available", "vram_free", "updated"}
 	gpuModelColumnsWithoutDefault = []string{}
-	gpuModelColumnsWithDefault    = []string{"id", "vram", "octane_bench_score"}
+	gpuModelColumnsWithDefault    = []string{"id", "vram", "octane_bench_score", "gpu_no", "slot_no", "available", "vram_free", "updated"}
 	gpuModelPrimaryKeyColumns     = []string{"id"}
 	gpuModelGeneratedColumns      = []string{}
 )

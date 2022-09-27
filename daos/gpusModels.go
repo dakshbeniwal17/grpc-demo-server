@@ -16,6 +16,10 @@ func CreateGpu(ctx context.Context, exec boil.ContextExecutor, bean *beans.GpuMo
 	gpu := &models.GpuModel{
 		Vram:             null.Float64From(bean.VRam),
 		OctaneBenchScore: null.IntFrom(bean.OctaneBenchScore),
+		GpuNo:            null.IntFrom(bean.GpuNo),
+		SlotNo:           null.IntFrom(bean.SlotNo),
+		Available:        null.IntFrom(bean.Available),
+		VramFree:         null.Float64From(bean.VramFree),
 	}
 	if err := gpu.Insert(ctx, exec, boil.Infer()); err != nil {
 		log.Printf("error while creating gpu: %v", gpu)
@@ -53,12 +57,24 @@ func GetGpus(ctx context.Context, exec boil.ContextExecutor, page int, perPage i
 	return gpus, nil
 }
 
-func UpdateGpu(ctx context.Context, exec boil.ContextExecutor, gpu *models.GpuModel, bean *beans.GpuModelsParams) (*models.GpuModel, error) {
-	if bean.VRam != 0 {
-		gpu.Vram = null.Float64From(bean.VRam)
+func UpdateGpu(ctx context.Context, exec boil.ContextExecutor, gpu *models.GpuModel, bean *beans.UpdateGpuModelsParams) (*models.GpuModel, error) {
+	if bean.VRam.Valid {
+		gpu.Vram = bean.VRam
 	}
-	if bean.OctaneBenchScore != 0 {
-		gpu.OctaneBenchScore = null.IntFrom(bean.OctaneBenchScore)
+	if bean.OctaneBenchScore.Valid {
+		gpu.OctaneBenchScore = bean.OctaneBenchScore
+	}
+	if bean.GpuNo.Valid {
+		gpu.GpuNo = bean.GpuNo
+	}
+	if bean.SlotNo.Valid {
+		gpu.SlotNo = bean.SlotNo
+	}
+	if bean.VramFree.Valid {
+		gpu.VramFree = bean.VramFree
+	}
+	if bean.Available.Valid {
+		gpu.Available = bean.Available
 	}
 	if _, err := gpu.Update(ctx, exec, boil.Infer()); err != nil {
 		log.Printf("error while updating gpu: %v", gpu)

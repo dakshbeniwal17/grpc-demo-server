@@ -8,14 +8,19 @@ import (
 	pb "grpc-demo-server/pb"
 	"grpc-demo-server/utils/helpers"
 
+	"github.com/volatiletech/null/v8"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
-func (s *Server) CreateGpu(ctx context.Context, req *pb.CreateGpuModelRequest) (*pb.CreateGpuModelResponse, error) {
+func (s *Server) CreateGpuModel(ctx context.Context, req *pb.CreateGpuModelRequest) (*pb.CreateGpuModelResponse, error) {
 	bean := &beans.GpuModelsParams{
-		VRam:             float64(req.Vram),
-		OctaneBenchScore: int(req.OctaneBenchScore),
+		VRam:             float64(req.GetVram()),
+		OctaneBenchScore: int(req.GetOctaneBenchScore()),
+		GpuNo:            int(req.GetGpuNo()),
+		SlotNo:           int(req.GetSlotNo()),
+		Available:        int(req.GetAvailable()),
+		VramFree:         float64(req.GetVramFree()),
 	}
 
 	gpu, err := daos.CreateGpu(ctx, s.DB, bean)
@@ -29,11 +34,33 @@ func (s *Server) CreateGpu(ctx context.Context, req *pb.CreateGpuModelRequest) (
 	return resp, nil
 }
 
-func (s *Server) UpdateGpu(ctx context.Context, req *pb.UpdateGpuModelRequest) (*pb.UpdateGpuModelResponse, error) {
-	bean := &beans.GpuModelsParams{
-		Id:               req.Id,
-		VRam:             float64(req.GetVram()),
-		OctaneBenchScore: int(req.GetOctaneBenchScore()),
+func (s *Server) UpdateGpuModel(ctx context.Context, req *pb.UpdateGpuModelRequest) (*pb.UpdateGpuModelResponse, error) {
+	bean := &beans.UpdateGpuModelsParams{
+		Id: req.Id,
+		VRam: null.Float64{
+			Float64: float64(req.GetVram()),
+			Valid:   req.Vram != nil,
+		},
+		OctaneBenchScore: null.Int{
+			Int:   int(req.GetOctaneBenchScore()),
+			Valid: req.OctaneBenchScore != nil,
+		},
+		GpuNo: null.Int{
+			Int:   int(req.GetGpuNo()),
+			Valid: req.GpuNo != nil,
+		},
+		SlotNo: null.Int{
+			Int:   int(req.GetSlotNo()),
+			Valid: req.SlotNo != nil,
+		},
+		Available: null.Int{
+			Int:   int(req.GetAvailable()),
+			Valid: req.Available != nil,
+		},
+		VramFree: null.Float64{
+			Float64: float64(req.GetVramFree()),
+			Valid:   req.VramFree != nil,
+		},
 	}
 
 	if bean.Id == "" {
@@ -48,18 +75,18 @@ func (s *Server) UpdateGpu(ctx context.Context, req *pb.UpdateGpuModelRequest) (
 		return nil, status.Errorf(codes.Internal, "failed to find gpu")
 	}
 
-	gpu, err = daos.UpdateGpu(ctx, s.DB, gpu, bean)
+	updatedGpu, err := daos.UpdateGpu(ctx, s.DB, gpu, bean)
 	if err != nil {
 		return nil, err
 	}
 
 	resp := &pb.UpdateGpuModelResponse{
-		Gpu: helpers.ConvertGpu(gpu),
+		Gpu: helpers.ConvertGpu(updatedGpu),
 	}
 	return resp, nil
 }
 
-func (s *Server) GetGpu(ctx context.Context, req *pb.GetGpuModelRequest) (*pb.GetGpuModelResponse, error) {
+func (s *Server) GetGpuModel(ctx context.Context, req *pb.GetGpuModelRequest) (*pb.GetGpuModelResponse, error) {
 	id := req.Id
 	if id == "" {
 		return nil, status.Errorf(codes.InvalidArgument, "Id is required")
@@ -79,7 +106,7 @@ func (s *Server) GetGpu(ctx context.Context, req *pb.GetGpuModelRequest) (*pb.Ge
 	return resp, nil
 }
 
-func (s *Server) GetGpus(ctx context.Context, req *pb.GetGpuModelsRequest) (*pb.GetGpuModelsResponse, error) {
+func (s *Server) GetGpuModels(ctx context.Context, req *pb.GetGpuModelsRequest) (*pb.GetGpuModelsResponse, error) {
 	page := req.Page
 	perPage := req.PerPage
 

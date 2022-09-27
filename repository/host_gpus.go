@@ -24,110 +24,44 @@ import (
 
 // HostGpu is an object representing the database table.
 type HostGpu struct {
-	ID        string       `boil:"id" json:"id" toml:"id" yaml:"id"`
-	HostID    null.String  `boil:"host_id" json:"host_id,omitempty" toml:"host_id" yaml:"host_id,omitempty"`
-	Updated   null.Time    `boil:"updated" json:"updated,omitempty" toml:"updated" yaml:"updated,omitempty"`
-	Gpu       null.String  `boil:"gpu" json:"gpu,omitempty" toml:"gpu" yaml:"gpu,omitempty"`
-	GpuNo     null.Int     `boil:"gpu_no" json:"gpu_no,omitempty" toml:"gpu_no" yaml:"gpu_no,omitempty"`
-	SlotNo    null.Int     `boil:"slot_no" json:"slot_no,omitempty" toml:"slot_no" yaml:"slot_no,omitempty"`
-	Available null.Int     `boil:"available" json:"available,omitempty" toml:"available" yaml:"available,omitempty"`
-	Vram      null.Float64 `boil:"vram" json:"vram,omitempty" toml:"vram" yaml:"vram,omitempty"`
-	VramFree  null.Float64 `boil:"vram_free" json:"vram_free,omitempty" toml:"vram_free" yaml:"vram_free,omitempty"`
+	ID     string      `boil:"id" json:"id" toml:"id" yaml:"id"`
+	HostID null.String `boil:"host_id" json:"host_id,omitempty" toml:"host_id" yaml:"host_id,omitempty"`
+	Gpu    null.String `boil:"gpu" json:"gpu,omitempty" toml:"gpu" yaml:"gpu,omitempty"`
 
 	R *hostGpuR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L hostGpuL  `boil:"-" json:"-" toml:"-" yaml:"-"`
 }
 
 var HostGpuColumns = struct {
-	ID        string
-	HostID    string
-	Updated   string
-	Gpu       string
-	GpuNo     string
-	SlotNo    string
-	Available string
-	Vram      string
-	VramFree  string
+	ID     string
+	HostID string
+	Gpu    string
 }{
-	ID:        "id",
-	HostID:    "host_id",
-	Updated:   "updated",
-	Gpu:       "gpu",
-	GpuNo:     "gpu_no",
-	SlotNo:    "slot_no",
-	Available: "available",
-	Vram:      "vram",
-	VramFree:  "vram_free",
+	ID:     "id",
+	HostID: "host_id",
+	Gpu:    "gpu",
 }
 
 var HostGpuTableColumns = struct {
-	ID        string
-	HostID    string
-	Updated   string
-	Gpu       string
-	GpuNo     string
-	SlotNo    string
-	Available string
-	Vram      string
-	VramFree  string
+	ID     string
+	HostID string
+	Gpu    string
 }{
-	ID:        "host_gpus.id",
-	HostID:    "host_gpus.host_id",
-	Updated:   "host_gpus.updated",
-	Gpu:       "host_gpus.gpu",
-	GpuNo:     "host_gpus.gpu_no",
-	SlotNo:    "host_gpus.slot_no",
-	Available: "host_gpus.available",
-	Vram:      "host_gpus.vram",
-	VramFree:  "host_gpus.vram_free",
+	ID:     "host_gpus.id",
+	HostID: "host_gpus.host_id",
+	Gpu:    "host_gpus.gpu",
 }
 
 // Generated where
 
-type whereHelpernull_Time struct{ field string }
-
-func (w whereHelpernull_Time) EQ(x null.Time) qm.QueryMod {
-	return qmhelper.WhereNullEQ(w.field, false, x)
-}
-func (w whereHelpernull_Time) NEQ(x null.Time) qm.QueryMod {
-	return qmhelper.WhereNullEQ(w.field, true, x)
-}
-func (w whereHelpernull_Time) LT(x null.Time) qm.QueryMod {
-	return qmhelper.Where(w.field, qmhelper.LT, x)
-}
-func (w whereHelpernull_Time) LTE(x null.Time) qm.QueryMod {
-	return qmhelper.Where(w.field, qmhelper.LTE, x)
-}
-func (w whereHelpernull_Time) GT(x null.Time) qm.QueryMod {
-	return qmhelper.Where(w.field, qmhelper.GT, x)
-}
-func (w whereHelpernull_Time) GTE(x null.Time) qm.QueryMod {
-	return qmhelper.Where(w.field, qmhelper.GTE, x)
-}
-
-func (w whereHelpernull_Time) IsNull() qm.QueryMod    { return qmhelper.WhereIsNull(w.field) }
-func (w whereHelpernull_Time) IsNotNull() qm.QueryMod { return qmhelper.WhereIsNotNull(w.field) }
-
 var HostGpuWhere = struct {
-	ID        whereHelperstring
-	HostID    whereHelpernull_String
-	Updated   whereHelpernull_Time
-	Gpu       whereHelpernull_String
-	GpuNo     whereHelpernull_Int
-	SlotNo    whereHelpernull_Int
-	Available whereHelpernull_Int
-	Vram      whereHelpernull_Float64
-	VramFree  whereHelpernull_Float64
+	ID     whereHelperstring
+	HostID whereHelpernull_String
+	Gpu    whereHelpernull_String
 }{
-	ID:        whereHelperstring{field: "\"host_gpus\".\"id\""},
-	HostID:    whereHelpernull_String{field: "\"host_gpus\".\"host_id\""},
-	Updated:   whereHelpernull_Time{field: "\"host_gpus\".\"updated\""},
-	Gpu:       whereHelpernull_String{field: "\"host_gpus\".\"gpu\""},
-	GpuNo:     whereHelpernull_Int{field: "\"host_gpus\".\"gpu_no\""},
-	SlotNo:    whereHelpernull_Int{field: "\"host_gpus\".\"slot_no\""},
-	Available: whereHelpernull_Int{field: "\"host_gpus\".\"available\""},
-	Vram:      whereHelpernull_Float64{field: "\"host_gpus\".\"vram\""},
-	VramFree:  whereHelpernull_Float64{field: "\"host_gpus\".\"vram_free\""},
+	ID:     whereHelperstring{field: "\"host_gpus\".\"id\""},
+	HostID: whereHelpernull_String{field: "\"host_gpus\".\"host_id\""},
+	Gpu:    whereHelpernull_String{field: "\"host_gpus\".\"gpu\""},
 }
 
 // HostGpuRels is where relationship names are stored.
@@ -154,9 +88,9 @@ func (*hostGpuR) NewStruct() *hostGpuR {
 type hostGpuL struct{}
 
 var (
-	hostGpuAllColumns            = []string{"id", "host_id", "updated", "gpu", "gpu_no", "slot_no", "available", "vram", "vram_free"}
+	hostGpuAllColumns            = []string{"id", "host_id", "gpu"}
 	hostGpuColumnsWithoutDefault = []string{}
-	hostGpuColumnsWithDefault    = []string{"id", "host_id", "updated", "gpu", "gpu_no", "slot_no", "available", "vram", "vram_free"}
+	hostGpuColumnsWithDefault    = []string{"id", "host_id", "gpu"}
 	hostGpuPrimaryKeyColumns     = []string{"id"}
 	hostGpuGeneratedColumns      = []string{}
 )

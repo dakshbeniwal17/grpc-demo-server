@@ -24,10 +24,10 @@ const _ = grpc.SupportPackageIsVersion7
 type GrpcDemoClient interface {
 	GetMessage(ctx context.Context, in *GetMessageRequest, opts ...grpc.CallOption) (*GetMessageResponse, error)
 	CreateHost(ctx context.Context, in *CreateHostRequest, opts ...grpc.CallOption) (*CreateHostResponse, error)
-	CreateGpu(ctx context.Context, in *CreateGpuModelRequest, opts ...grpc.CallOption) (*CreateGpuModelResponse, error)
-	UpdateGpu(ctx context.Context, in *UpdateGpuModelRequest, opts ...grpc.CallOption) (*UpdateGpuModelResponse, error)
-	GetGpu(ctx context.Context, in *GetGpuModelRequest, opts ...grpc.CallOption) (*GetGpuModelResponse, error)
-	GetGpus(ctx context.Context, in *GetGpuModelsRequest, opts ...grpc.CallOption) (*GetGpuModelsResponse, error)
+	CreateGpuModel(ctx context.Context, in *CreateGpuModelRequest, opts ...grpc.CallOption) (*CreateGpuModelResponse, error)
+	UpdateGpuModel(ctx context.Context, in *UpdateGpuModelRequest, opts ...grpc.CallOption) (*UpdateGpuModelResponse, error)
+	GetGpuModel(ctx context.Context, in *GetGpuModelRequest, opts ...grpc.CallOption) (*GetGpuModelResponse, error)
+	GetGpuModels(ctx context.Context, in *GetGpuModelsRequest, opts ...grpc.CallOption) (*GetGpuModelsResponse, error)
 }
 
 type grpcDemoClient struct {
@@ -56,36 +56,36 @@ func (c *grpcDemoClient) CreateHost(ctx context.Context, in *CreateHostRequest, 
 	return out, nil
 }
 
-func (c *grpcDemoClient) CreateGpu(ctx context.Context, in *CreateGpuModelRequest, opts ...grpc.CallOption) (*CreateGpuModelResponse, error) {
+func (c *grpcDemoClient) CreateGpuModel(ctx context.Context, in *CreateGpuModelRequest, opts ...grpc.CallOption) (*CreateGpuModelResponse, error) {
 	out := new(CreateGpuModelResponse)
-	err := c.cc.Invoke(ctx, "/pb.GrpcDemo/CreateGpu", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pb.GrpcDemo/CreateGpuModel", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *grpcDemoClient) UpdateGpu(ctx context.Context, in *UpdateGpuModelRequest, opts ...grpc.CallOption) (*UpdateGpuModelResponse, error) {
+func (c *grpcDemoClient) UpdateGpuModel(ctx context.Context, in *UpdateGpuModelRequest, opts ...grpc.CallOption) (*UpdateGpuModelResponse, error) {
 	out := new(UpdateGpuModelResponse)
-	err := c.cc.Invoke(ctx, "/pb.GrpcDemo/UpdateGpu", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pb.GrpcDemo/UpdateGpuModel", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *grpcDemoClient) GetGpu(ctx context.Context, in *GetGpuModelRequest, opts ...grpc.CallOption) (*GetGpuModelResponse, error) {
+func (c *grpcDemoClient) GetGpuModel(ctx context.Context, in *GetGpuModelRequest, opts ...grpc.CallOption) (*GetGpuModelResponse, error) {
 	out := new(GetGpuModelResponse)
-	err := c.cc.Invoke(ctx, "/pb.GrpcDemo/GetGpu", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pb.GrpcDemo/GetGpuModel", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *grpcDemoClient) GetGpus(ctx context.Context, in *GetGpuModelsRequest, opts ...grpc.CallOption) (*GetGpuModelsResponse, error) {
+func (c *grpcDemoClient) GetGpuModels(ctx context.Context, in *GetGpuModelsRequest, opts ...grpc.CallOption) (*GetGpuModelsResponse, error) {
 	out := new(GetGpuModelsResponse)
-	err := c.cc.Invoke(ctx, "/pb.GrpcDemo/GetGpus", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pb.GrpcDemo/GetGpuModels", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -98,10 +98,10 @@ func (c *grpcDemoClient) GetGpus(ctx context.Context, in *GetGpuModelsRequest, o
 type GrpcDemoServer interface {
 	GetMessage(context.Context, *GetMessageRequest) (*GetMessageResponse, error)
 	CreateHost(context.Context, *CreateHostRequest) (*CreateHostResponse, error)
-	CreateGpu(context.Context, *CreateGpuModelRequest) (*CreateGpuModelResponse, error)
-	UpdateGpu(context.Context, *UpdateGpuModelRequest) (*UpdateGpuModelResponse, error)
-	GetGpu(context.Context, *GetGpuModelRequest) (*GetGpuModelResponse, error)
-	GetGpus(context.Context, *GetGpuModelsRequest) (*GetGpuModelsResponse, error)
+	CreateGpuModel(context.Context, *CreateGpuModelRequest) (*CreateGpuModelResponse, error)
+	UpdateGpuModel(context.Context, *UpdateGpuModelRequest) (*UpdateGpuModelResponse, error)
+	GetGpuModel(context.Context, *GetGpuModelRequest) (*GetGpuModelResponse, error)
+	GetGpuModels(context.Context, *GetGpuModelsRequest) (*GetGpuModelsResponse, error)
 	mustEmbedUnimplementedGrpcDemoServer()
 }
 
@@ -115,17 +115,17 @@ func (UnimplementedGrpcDemoServer) GetMessage(context.Context, *GetMessageReques
 func (UnimplementedGrpcDemoServer) CreateHost(context.Context, *CreateHostRequest) (*CreateHostResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateHost not implemented")
 }
-func (UnimplementedGrpcDemoServer) CreateGpu(context.Context, *CreateGpuModelRequest) (*CreateGpuModelResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateGpu not implemented")
+func (UnimplementedGrpcDemoServer) CreateGpuModel(context.Context, *CreateGpuModelRequest) (*CreateGpuModelResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateGpuModel not implemented")
 }
-func (UnimplementedGrpcDemoServer) UpdateGpu(context.Context, *UpdateGpuModelRequest) (*UpdateGpuModelResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateGpu not implemented")
+func (UnimplementedGrpcDemoServer) UpdateGpuModel(context.Context, *UpdateGpuModelRequest) (*UpdateGpuModelResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateGpuModel not implemented")
 }
-func (UnimplementedGrpcDemoServer) GetGpu(context.Context, *GetGpuModelRequest) (*GetGpuModelResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetGpu not implemented")
+func (UnimplementedGrpcDemoServer) GetGpuModel(context.Context, *GetGpuModelRequest) (*GetGpuModelResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetGpuModel not implemented")
 }
-func (UnimplementedGrpcDemoServer) GetGpus(context.Context, *GetGpuModelsRequest) (*GetGpuModelsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetGpus not implemented")
+func (UnimplementedGrpcDemoServer) GetGpuModels(context.Context, *GetGpuModelsRequest) (*GetGpuModelsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetGpuModels not implemented")
 }
 func (UnimplementedGrpcDemoServer) mustEmbedUnimplementedGrpcDemoServer() {}
 
@@ -176,74 +176,74 @@ func _GrpcDemo_CreateHost_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
-func _GrpcDemo_CreateGpu_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _GrpcDemo_CreateGpuModel_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateGpuModelRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GrpcDemoServer).CreateGpu(ctx, in)
+		return srv.(GrpcDemoServer).CreateGpuModel(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pb.GrpcDemo/CreateGpu",
+		FullMethod: "/pb.GrpcDemo/CreateGpuModel",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GrpcDemoServer).CreateGpu(ctx, req.(*CreateGpuModelRequest))
+		return srv.(GrpcDemoServer).CreateGpuModel(ctx, req.(*CreateGpuModelRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _GrpcDemo_UpdateGpu_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _GrpcDemo_UpdateGpuModel_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateGpuModelRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GrpcDemoServer).UpdateGpu(ctx, in)
+		return srv.(GrpcDemoServer).UpdateGpuModel(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pb.GrpcDemo/UpdateGpu",
+		FullMethod: "/pb.GrpcDemo/UpdateGpuModel",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GrpcDemoServer).UpdateGpu(ctx, req.(*UpdateGpuModelRequest))
+		return srv.(GrpcDemoServer).UpdateGpuModel(ctx, req.(*UpdateGpuModelRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _GrpcDemo_GetGpu_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _GrpcDemo_GetGpuModel_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetGpuModelRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GrpcDemoServer).GetGpu(ctx, in)
+		return srv.(GrpcDemoServer).GetGpuModel(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pb.GrpcDemo/GetGpu",
+		FullMethod: "/pb.GrpcDemo/GetGpuModel",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GrpcDemoServer).GetGpu(ctx, req.(*GetGpuModelRequest))
+		return srv.(GrpcDemoServer).GetGpuModel(ctx, req.(*GetGpuModelRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _GrpcDemo_GetGpus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _GrpcDemo_GetGpuModels_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetGpuModelsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GrpcDemoServer).GetGpus(ctx, in)
+		return srv.(GrpcDemoServer).GetGpuModels(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pb.GrpcDemo/GetGpus",
+		FullMethod: "/pb.GrpcDemo/GetGpuModels",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GrpcDemoServer).GetGpus(ctx, req.(*GetGpuModelsRequest))
+		return srv.(GrpcDemoServer).GetGpuModels(ctx, req.(*GetGpuModelsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -264,20 +264,20 @@ var GrpcDemo_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _GrpcDemo_CreateHost_Handler,
 		},
 		{
-			MethodName: "CreateGpu",
-			Handler:    _GrpcDemo_CreateGpu_Handler,
+			MethodName: "CreateGpuModel",
+			Handler:    _GrpcDemo_CreateGpuModel_Handler,
 		},
 		{
-			MethodName: "UpdateGpu",
-			Handler:    _GrpcDemo_UpdateGpu_Handler,
+			MethodName: "UpdateGpuModel",
+			Handler:    _GrpcDemo_UpdateGpuModel_Handler,
 		},
 		{
-			MethodName: "GetGpu",
-			Handler:    _GrpcDemo_GetGpu_Handler,
+			MethodName: "GetGpuModel",
+			Handler:    _GrpcDemo_GetGpuModel_Handler,
 		},
 		{
-			MethodName: "GetGpus",
-			Handler:    _GrpcDemo_GetGpus_Handler,
+			MethodName: "GetGpuModels",
+			Handler:    _GrpcDemo_GetGpuModels_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
