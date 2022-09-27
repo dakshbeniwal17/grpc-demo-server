@@ -21,3 +21,11 @@ func ConvertHost(host *models.Host) *pb.Host {
 		Gpu:     host.Gpu.String,
 	}
 }
+
+func ConvertGpu(gpu *models.GpuModel) *pb.GpuModels {
+	return &pb.GpuModels{
+		Id:               gpu.ID,
+		Vram:             float32(gpu.Vram.Float64),
+		OctaneBenchScore: int64(gpu.OctaneBenchScore.Int),
+	}
+}

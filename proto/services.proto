@@ -2,6 +2,7 @@ syntax = "proto3";
 
 import "hello_world.proto";
 import "hosts.proto";
+import "gpu_models.proto";
 
 option go_package = "grpc-demo-server/pb";
 
@@ -10,4 +11,8 @@ package pb;
 service GrpcDemo {
     rpc GetMessage(GetMessageRequest) returns (GetMessageResponse) {}
     rpc CreateHost(CreateHostRequest) returns (CreateHostResponse) {}
+    rpc CreateGpu(CreateGpuModelRequest) returns (CreateGpuModelResponse) {}
+    rpc UpdateGpu(UpdateGpuModelRequest) returns (UpdateGpuModelResponse) {}
+    rpc GetGpu(GetGpuModelRequest) returns (GetGpuModelResponse) {}
+    rpc GetGpus(GetGpuModelsRequest) returns (GetGpuModelsResponse) {}
 }

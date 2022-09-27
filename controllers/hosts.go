@@ -21,7 +21,7 @@ func (s *Server) CreateHost(ctx context.Context, req *pb.CreateHostRequest) (*pb
 	}
 	// fmt.Printf("Host bean: %v\n", *bean)
 
-	host, err := daos.Create(ctx, s.DB, bean)
+	host, err := daos.CreateHost(ctx, s.DB, bean)
 	if err != nil {
 		return nil, err
 	}

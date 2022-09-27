@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package pb;
+
+option go_package = "grpc-demo-server/pb";
+
+message GpuModels {
+    string id = 1;
+    float vram = 2;
+    int64 octane_bench_score = 3;
+}
+
+message CreateGpuModelRequest {
+    float vram = 1;
+    int64 octane_bench_score = 2;
+}
+
+message CreateGpuModelResponse {
+    GpuModels gpu = 1;
+}
+
+message UpdateGpuModelRequest {
+    string id = 1;
+    optional float vram = 2;
+    optional int64 octane_bench_score = 3;
+}
+
+message UpdateGpuModelResponse {
+    GpuModels gpu = 1;
+}
+
+message GetGpuModelRequest {
+    string id = 1;
+}
+
+message GetGpuModelResponse {
+    GpuModels gpu = 1;
+}
+
+message GetGpuModelsRequest {
+    int64 page = 1;
+    int64 per_page = 2;
+}
+
+message GetGpuModelsResponse {
+    repeated GpuModels gpus = 1;
+}

@@ -11,6 +11,7 @@ import (
 	"github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	_ "github.com/lib/pq"
+	"github.com/volatiletech/sqlboiler/v4/boil"
 )
 
 func PostgresConnect() (*sql.DB, error) {
@@ -45,6 +46,7 @@ func PostgresConnect() (*sql.DB, error) {
 		return nil, err
 	}
 
+	boil.DebugMode = true
 	return db, nil
 }
 

@@ -11,7 +11,7 @@ import (
 	"github.com/volatiletech/sqlboiler/v4/boil"
 )
 
-func Create(ctx context.Context, exec boil.ContextExecutor, bean *beans.CreateHostParams) (*models.Host, error) {
+func CreateHost(ctx context.Context, exec boil.ContextExecutor, bean *beans.CreateHostParams) (*models.Host, error) {
 	host := &models.Host{
 		Name:    bean.Name,
 		RAM:     null.Float64From(bean.Ram),
